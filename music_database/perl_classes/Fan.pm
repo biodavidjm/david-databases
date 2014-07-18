@@ -9,10 +9,14 @@ has 'fan_name' => (
     is       => 'rw',
     isa      => 'Str',
     required => 1,
-    reader   => 'get_fan_name',
-    writer   => 'set_fan_name'
+    predicate => 'has_fan_name',
 );
 
+sub BUILD () {
+	say  "\tyes? someone has create an object with Fan?";
+	say "\tok, the fan is ";
+	# my $whatever = $self->fan_name();
+}
 
 method add_band () {
 

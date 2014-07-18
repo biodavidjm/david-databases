@@ -26,14 +26,14 @@ my $band_test = Band->new (
 	country 		=> 'England',
 	);
 
-say "The band is ".$band_test->get_band_name." from ".$band_test->get_country;
+say "The band is ".$band_test->band_name." from ".$band_test->country;
 
 my $album_test = Album->new (
-	album_name 		=>	'Ok Computer',
+	album_name 		=>	'Ok Computer',																
 	album_year		=>	'1997',
 	);
 
-say "The most influencial album is ".$album_test->get_album_name." (".$album_test->get_album_year.")";
+say "The most influencial album is ".$album_test->album_name." (".$album_test->album_year.")";
 
 my $show_test = Show->new (
 	show_city 		=> 'Bilbao',
@@ -41,7 +41,7 @@ my $show_test = Show->new (
 	show_year		=> '2000',
 	);
 
-say "The first show that I saw was in ". $show_test->get_show_city ." (".$show_test->get_show_country.") in the year ". $show_test->get_show_year;
+say "The first show that I saw was in ". $show_test->show_city ." (".$show_test->show_country.") in the year ". $show_test->show_year;
 
 my $song_test = Song->new (
 	song_name		=> 'Airbag',
@@ -51,15 +51,19 @@ my $song_test = Song->new (
 	style			=> 'pop rock',
 	);
 
-say "Song: ".$song_test->get_song_name.", duration: ".$song_test->get_duration. " (".$song_test->get_duration_seconds." seconds)";
+say "Song: ".$song_test->song_name.", duration: ".$song_test->duration. " (".$song_test->get_duration_seconds." seconds)";
 
 my $fan_test = Fan->new (
 	fan_name 		=> 'David',
 	);
 
-say $fan_test->get_fan_name." is a big fan of the band";
+say $fan_test->fan_name()." is a big fan of the band";
 
-say "The name is not ".$band_test->set_band_name('Radio Head');
+if ($fan_test->has_fan_name)
+{
+	say "\tYep, it has a fan name and is ".$fan_test->fan_name;
+}
+say "The name is not ".$band_test->band_name('Radio Head');
 
 
 

@@ -8,16 +8,12 @@ has 'album_name' => (
     is       => 'rw',
     isa      => 'Str',
     required => 1,
-    reader   => 'get_album_name',
-    writer   => 'set_album_name'
 );
 
 has 'album_year' => (
     is      => 'rw',
     isa     => 'Int',
     default => "NULL",
-    reader  => 'get_album_year',
-    writer  => 'set_album_year'
 );
 
 

@@ -12,17 +12,13 @@ use feature qw/say/;
 has 'show_city' => (
     is       => 'rw',
     isa      => 'Str',
-    required => 1,
-    reader   => 'get_show_city',
-    writer   => 'set_show_city'
+    required => 1
 );
 
 has 'show_country' => (
 	is 		=> 'rw',
 	isa		=> 'Str',
-	required => 1,
-	reader => 'get_show_country',
-	writer => 'set_show_country'
+	required => 1
 );
 
 subtype 'modern_time',
@@ -33,7 +29,6 @@ subtype 'modern_time',
 has 'show_year' => (
 	is 		=>	'ro',
 	isa		=>	'modern_time',
-	reader	=> 	'get_show_year'
 );
 
 # subtype 'Between0and5',

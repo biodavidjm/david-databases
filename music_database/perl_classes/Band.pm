@@ -9,16 +9,16 @@ has 'band_name' => (
 	is => 'rw',
 	isa => 'Str',
 	required => 1,
-	reader => 'get_band_name',
-	writer => 'set_band_name'
+	# reader => 'get_band_name',
+	# writer => 'set_band_name'
 );
 
 has 'country' => (
 	is => 'rw',
 	isa => 'Str',
 	default => 'NULL',
-	reader => 'get_country',
-	writer => 'set_country'
+	# reader => 'get_country',
+	# writer => 'set_country'
 );
 
 
