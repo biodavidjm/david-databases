@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-use strict;
+use Modern::Perl;
 use feature qw/say/;
 use autodie qw/open close/;
 
@@ -66,8 +66,7 @@ if ($fan_test->has_fan_name)
 say "The name is not ".$band_test->band_name('Radio Head');
 
 
-
-
+say "\nLet's add Albums to Band\n";
 
 
 exit;

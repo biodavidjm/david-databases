@@ -9,6 +9,8 @@ has 'band_name' => (
 	is => 'rw',
 	isa => 'Str',
 	required => 1,
+	predicate => 'has_fan_name',
+	# The reader and writer are not necessary to write!
 	# reader => 'get_band_name',
 	# writer => 'set_band_name'
 );
@@ -17,13 +19,18 @@ has 'country' => (
 	is => 'rw',
 	isa => 'Str',
 	default => 'NULL',
+	predicate => 'has_country',
 	# reader => 'get_country',
 	# writer => 'set_country'
 );
 
 
+# has 'AlbumList' => (
+
+# );
+
+
 method add_album(){
-	# A band can have multiple albums, which
 }
 
 method delete_album(){

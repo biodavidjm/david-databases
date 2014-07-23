@@ -12,13 +12,15 @@ use feature qw/say/;
 has 'show_city' => (
     is       => 'rw',
     isa      => 'Str',
-    required => 1
+    required => 1,
+    predicate => 'has_show_city',
 );
 
 has 'show_country' => (
 	is 		=> 'rw',
 	isa		=> 'Str',
-	required => 1
+	required => 1,
+	predicate => 'has_show_country',
 );
 
 subtype 'modern_time',
@@ -29,6 +31,7 @@ subtype 'modern_time',
 has 'show_year' => (
 	is 		=>	'ro',
 	isa		=>	'modern_time',
+	predicate => 'has_modern_time',
 );
 
 # subtype 'Between0and5',
@@ -46,6 +49,7 @@ has 'show_name' => (
 	is 		=> 'rw',
 	isa 	=> 'Str',
 	default => 'Live',
+    lazy    => 1,
 	reader	=> 'get_show_name',
 	writer  => 'set_show_name'
 );

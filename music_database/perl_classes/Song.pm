@@ -10,29 +10,34 @@ use POSIX; # For mathematical functions like ceil and floor
 has 'song_name' => (
     is       => 'rw',
     isa      => 'Str',
-    required => 1
+    required => 1,
+    predicate => 'has_song_name',
 );
 
 has 'itunes_id' => (
 
     is       => "rw",
     isa      => 'Int',
-    required => 1
+    required => 1,
+    predicate => 'has_itunes_id',
 );
 
 has 'duration' => (
     is       => 'rw',
     isa      => 'Int',
+    predicate => 'has_duration',
 );
 
 has 'track_number' => (
     is     => 'rw',
     isa    => 'Int',
+    predicate => 'has_track_number',
 );
 
 has 'style' => (
 	is => 'rw',
 	isa => 'Str',
+    predicate => 'has_style',
 );
 
 method get_duration_seconds{
@@ -64,6 +69,10 @@ method get_duration_seconds{
     return $here;
 
 }
+
+before 'get_duration_seconds' => sub { print "\t\tAbout to call get_duration_seconds\n"; };
+after 'get_duration_seconds'  => sub { print "\t\tjust called get_duration_seconds\n"; };
+
 
 method add_to_artist () {
 

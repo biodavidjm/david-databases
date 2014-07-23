@@ -8,12 +8,14 @@ use feature qw/say/;
 has 'playlist_name' => (
     is       => 'rw',
     isa      => 'Str',
-    required => 1
+    required => 1,
+    predicate => 'has_playlist_name',
 );
 
 has 'created_by' => (
     is      => 'rw',
-    isa     => 'Str'
+    isa     => 'Str',
+    predicate => 'has_created_by',
 );
 
 method add_song () {

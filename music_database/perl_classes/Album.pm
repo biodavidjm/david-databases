@@ -8,12 +8,14 @@ has 'album_name' => (
     is       => 'rw',
     isa      => 'Str',
     required => 1,
+    predicate => 'has_album_name',
 );
 
 has 'album_year' => (
     is      => 'rw',
     isa     => 'Int',
     default => "NULL",
+    predicate => 'has_album_year',
 );
 
 
