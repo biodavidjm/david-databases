@@ -61,6 +61,14 @@ my $song_test = Song->new(
     style        => 'pop rock',
 );
 
+my $song_test2 = Song->new(
+    song_name    => 'Paranoid Android',
+    itunes_id    => '19809',
+    duration     => '286476',
+    track_number => '2',
+    style        => 'pop rock',
+);
+
 say "Song: "
     . $song_test->song_name
     . ", duration: "
@@ -106,6 +114,32 @@ foreach my $song (@songs) {
         . $song->get_duration_seconds
         . "\n";
 }
+
+say "Playing with the Album object ";
+
+$album_test->add_band($band_test);
+
+say "\tThe album '".$album_test->album_name."' belongs to the band ".$album_test->band->band_name;
+$album_test->add_song($song_test);
+$album_test->add_song($song_test2);
+
+say "\tYou have ".$album_test->total_song." songs for this artist";
+my @songs2 = $album_test->get_song;
+foreach my $song (@songs2) {
+    print "\t\t".$song->song_name
+        . " ---> Track #:"
+        . $song->track_number
+        . " iTunes ID:"
+        . $song->itunes_id
+        . " Duration:"
+        . $song->get_duration_seconds
+        . " (remember, the band is: "
+        . $album_test->band->band_name 
+        . ")\n";
+}
+
+
+
 
 exit;
 

@@ -70,7 +70,7 @@ method get_duration_seconds{
 
 }
 
-before 'get_duration_seconds' => sub { print "\t\tAbout to call get_duration_seconds\n"; };
+# before 'get_duration_seconds' => sub { print "\t\tAbout to call get_duration_seconds\n"; };
 # after 'get_duration_seconds'  => sub { print "\t\tjust called get_duration_seconds\n"; };
 
 
