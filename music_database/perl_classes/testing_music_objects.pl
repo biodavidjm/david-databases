@@ -20,54 +20,92 @@ system('clear');
 #
 # # # # # # # # #
 
+my $band_test = Band->new(
+    band_name => 'Radiohead',
+    country   => 'England',
+);
 
-my $band_test = Band->new (
-	band_name 		=> 'Radiohead',
-	country 		=> 'England',
-	);
+say "The band is " . $band_test->band_name . " from " . $band_test->country;
 
-say "The band is ".$band_test->band_name." from ".$band_test->country;
+my $album_test = Album->new(
+    album_name => 'Ok Computer',
+    album_year => '1997',
+);
 
-my $album_test = Album->new (
-	album_name 		=>	'Ok Computer',																
-	album_year		=>	'1997',
-	);
+my $album_test2 = Album->new(
+    album_name => 'Kid A',
+    album_year => '2000',
+);
 
-say "The most influencial album is ".$album_test->album_name." (".$album_test->album_year.")";
+say "The most influencial album is "
+    . $album_test->album_name . " ("
+    . $album_test->album_year . ")";
 
-my $show_test = Show->new (
-	show_city 		=> 'Bilbao',
-	show_country 	=> 'Spain',
-	show_year		=> '2000',
-	);
+my $show_test = Show->new(
+    show_city    => 'Bilbao',
+    show_country => 'Spain',
+    show_year    => '2000',
+);
 
-say "The first show that I saw was in ". $show_test->show_city ." (".$show_test->show_country.") in the year ". $show_test->show_year;
+say "The first show that I saw was in "
+    . $show_test->show_city . " ("
+    . $show_test->show_country
+    . ") in the year "
+    . $show_test->show_year;
 
-my $song_test = Song->new (
-	song_name		=> 'Airbag',
-	itunes_id		=> '19808',
-	duration		=> '286432',
-	track_number	=> '1',
-	style			=> 'pop rock',
-	);
+my $song_test = Song->new(
+    song_name    => 'Airbag',
+    itunes_id    => '19808',
+    duration     => '286432',
+    track_number => '1',
+    style        => 'pop rock',
+);
 
-say "Song: ".$song_test->song_name.", duration: ".$song_test->duration. " (".$song_test->get_duration_seconds." seconds)";
+say "Song: "
+    . $song_test->song_name
+    . ", duration: "
+    . $song_test->duration . " ("
+    . $song_test->get_duration_seconds
+    . " seconds)";
 
-my $fan_test = Fan->new (
-	fan_name 		=> 'David',
-	);
+my $fan_test = Fan->new( fan_name => 'David', );
 
-say $fan_test->fan_name()." is a big fan of the band";
+say $fan_test->fan_name() . " is a big fan of the band";
 
-if ($fan_test->has_fan_name)
-{
-	say "\tYep, it has a fan name and is ".$fan_test->fan_name;
+if ( $fan_test->has_fan_name ) {
+    say "\tYep, it has a fan name and is " . $fan_test->fan_name;
 }
-say "The name is not ".$band_test->band_name('Radio Head');
 
+say "\nLet's add Albums to Band--------->";
 
-say "\nLet's add Albums to Band\n";
+$band_test->add_album($album_test);
+$band_test->add_album($album_test2);
 
+my $numberalbums = $band_test->total_album;
+
+say "\tNumber of bands: " . $numberalbums;
+
+my @temp = $band_test->get_album;
+foreach my $album (@temp) {
+    say "\t" . $band_test->band_name . " " . $album->album_name, "  ",
+        $album->album_year;
+}
+
+say "Add songs to band-------->";
+$band_test->add_song($song_test);
+my @songs = $band_test->get_song;
+
+foreach my $song (@songs) {
+    print "\t".$band_test->band_name . " "
+        . $song->song_name
+        . " Track #:"
+        . $song->track_number
+        . " iTunes ID:"
+        . $song->itunes_id
+        . " Duration:"
+        . $song->get_duration_seconds
+        . "\n";
+}
 
 exit;
 

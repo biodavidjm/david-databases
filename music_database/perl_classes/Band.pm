@@ -24,69 +24,121 @@ has 'country' => (
 	# writer => 'set_country'
 );
 
+has '_album_list' => (
+	is		=>	'rw',
+	isa		=>	'ArrayRef',
+	traits	=>	[qw/Array/],
+	lazy	=>	1,
+	default	=>	sub { return[] },
+	handles	=> {
+		'all_albums_in_band'	=>	'elements',
+		'add_albums_in_band'	=>	'push',
+		'total_albums_in_band'	=>	'count',
+		'has_no_album' 			=>  'is_empty',
+	}
+);
 
-# has 'AlbumList' => (
-
+# has '_album_list' => (
+# 	is		=>	'rw',
+# 	isa		=>	'ArrayRef',
+# 	auto_deref	=>	1,
+# 	lazy	=>	1,
+# 	default	=>	sub { return[] },
 # );
 
 
-method add_album(){
+has '_song_list' => (
+	is		=>	'rw',
+	isa		=>	'ArrayRef',
+	traits	=>	[qw/Array/],
+	lazy	=>	1,
+	default	=>	sub { return[] },
+	handles	=> {
+		'all_songs_in_band'		=>	'elements',
+		'add_songs_in_band'		=>	'push',
+		'total_songs_in_band'	=>	'count',
+		'has_no_song' 			=> 'is_empty',
+	}
+);
+
+has '_fan_list' => (
+	is		=>	'rw',
+	isa		=>	'ArrayRef',
+	traits	=>	[qw/Array/],
+	lazy	=>	1,
+	default	=>	sub { return[] },
+	handles	=> {
+		'all_fan_in_band'	=>	'elements',
+		'add_fan_in_band'	=>	'push',
+		'total_fan_in_band'	=>	'count',
+		'has_no_fan' 		=> 'is_empty',
+	}
+);
+
+has '_show_list' => (
+	is		=>	'rw',
+	isa		=>	'ArrayRef',
+	traits	=>	[qw/Array/],
+	lazy	=>	1,
+	default	=>	sub { return[] },
+	handles	=> {
+		'all_show_in_band'	=>	'elements',
+		'add_show_in_band'	=>	'push',
+		'total_show_in_band'	=>	'count',
+		'has_no_show' 		=> 'is_empty',
+	}
+);
+
+method add_album($album) {
+	# my $all_albums = $self->_album_list;
+	# push @$all_albums, $album;
+	# $self->_album_list($all_albums);
+	$self->add_albums_in_band($album);
 }
 
-method delete_album(){
-
+method get_album() {
+	return $self->all_albums_in_band;
 }
 
-method add_song(){
-	# A band can have multiple songs
+method total_album() {
+	return $self->total_albums_in_band;
 }
 
-method delete_song(){
-
+method add_song($song) {
+	$self->add_songs_in_band($song);
 }
 
-method add_fan(){
-
+method get_song() {
+	return $self->all_songs_in_band;
 }
 
-method delete_fan(){
-
-}
-
-method add_show(){
-
-}
-
-method delete_show(){
-
-}
-
-method add_source () {
-
-}
-
-method delete_source () {
-
-}
-
-method add_to_playlist () {
-
-}
-
-method delete_from_playlist () {
-
+method total_song() {
+	return $self->total_songs_in_band;
 }
 
 
+method add_fan($fan){
+	$self->add_fan_in_band($fan);
+}
 
-# I don't need this because a moose provide set and get
-# method set_band_name (Str $key) {
-# 	return $self->band_name($key);
-# }
+method get_fan() {
+	return $self->all_fans_in_band;
+}
 
-# method set_country (Str $key) {
-# 	return $self->country($key);
-# }
+method total_fan() {
+	return $self->total_fans_in_band;
+}
 
+method add_show($show){
+	$self->add_show_in_band($show);
+}
+
+method get_show() {
+	return $self->all_shows_in_band;
+}
+
+method total_show() {
+	return $self->total_shows_in_band;
+}
 
 1;
