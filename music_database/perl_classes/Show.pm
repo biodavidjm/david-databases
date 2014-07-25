@@ -34,15 +34,15 @@ has 'show_year' => (
 	predicate => 'has_modern_time',
 );
 
-# subtype 'Between0and5',
-#       as 'Int',
-#       where { 0 <= $_ && $_ <= 5},
-#       message { "Ratings are between 0 and 5 (yoou provide $_)" };
+subtype 'Between0and5',
+      as 'Int',
+      where { 0 <= $_ && $_ <= 5},
+      message { "Ratings are between 0 and 5 (yoou provide $_)" };
 
-# has 'rating' => (
-# 	is => 'rw',
-# 	isa=> 'Between0and5',
-# );
+has 'rating' => (
+	is => 'rw',
+	isa=> 'Between0and5',
+);
 
 
 has 'show_name' => (
@@ -50,17 +50,32 @@ has 'show_name' => (
 	isa 	=> 'Str',
 	default => 'Live',
     lazy    => 1,
-	reader	=> 'get_show_name',
-	writer  => 'set_show_name'
 );
 
+has '_band_list' => (
+    is      =>  'rw',
+    isa     =>  'ArrayRef',
+    traits  =>  [qw/Array/],
+    lazy    =>  1,
+    default =>  sub { return[] },
+    handles => {
+        'all_bands_in_show'    =>  'elements',
+        'add_bands_in_show'    =>  'push',
+        'total_bands_in_show'  =>  'count',
+        'has_no_band'         =>  'is_empty',
+    }
+);
 
-method add_band () {
-
+method add_band( $band ) {
+	$self->add_bands_in_show($band);
 }
 
-method delete_band () {
+method get_band() {
+	return $self->all_bands_in_show;
+}
 
+method total_band() {
+	return $self->total_bands_in_show;
 }
 
 method current_year {

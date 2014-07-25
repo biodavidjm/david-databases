@@ -89,6 +89,12 @@ has '_show_list' => (
 	}
 );
 
+# sub BUILD () {
+# 	say  "\tyes? someone has create an object with the Band class?";
+# 	say "\tok, the band is ";
+# 	# my $whatever = $self->band_name();
+# }
+
 method add_album($album) {
 	# my $all_albums = $self->_album_list;
 	# push @$all_albums, $album;

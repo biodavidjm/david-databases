@@ -4,7 +4,6 @@ use Moose;
 use Method::Signatures;
 use feature qw/say/;
 
-
 has 'fan_name' => (
     is       => 'rw',
     isa      => 'Str',
@@ -12,51 +11,31 @@ has 'fan_name' => (
     predicate => 'has_fan_name',
 );
 
-sub BUILD () {
-	say  "\tyes? someone has create an object with Fan?";
-	say "\tok, the fan is ";
-	# my $whatever = $self->fan_name();
+has '_band_list' => (
+    is      =>  'rw',
+    isa     =>  'ArrayRef',
+    traits  =>  [qw/Array/],
+    lazy    =>  1,
+    default =>  sub { return[] },
+    handles => {
+        'all_bands_in_fan'    =>  'elements',
+        'add_bands_in_fan'    =>  'push',
+        'total_bands_in_fan'  =>  'count',
+        'has_no_band'         =>  'is_empty',
+    }
+);
+
+method add_band( $band ) {
+	$self->add_bands_in_fan($band);
 }
 
-method add_band () {
-
+method get_band() {
+	return $self->all_bands_in_fan;
 }
 
-method delete_band () {
-
+method total_band() {
+	return $self->total_bands_in_fan;
 }
-
-
-
-# method set_song_name (Str $key){
-
-# 	return $self->song_name($key);
-
-# }
-
-# method set_itunes_id (Int $key){
-
-# 	return $self->itunes_id($key);
-
-# }
-
-# method set_duration (Int $key){
-
-# 	return $self->duration($key);
-
-# }
-
-# method set_track_number (Int $key){
-
-# 	return $self->track_number($key);
-
-# }
-
-# method set_song_style (Str $key){
-
-# 	return $self->style($key);
-
-# }
 
 
 1;

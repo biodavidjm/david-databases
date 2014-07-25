@@ -24,7 +24,6 @@ has 'band' => (
     predicate   =>  'has_a_band',
 );
 
-
 has '_song_list' => (
     is      =>  'rw',
     isa     =>  'ArrayRef',
@@ -35,16 +34,15 @@ has '_song_list' => (
         'all_songs_in_album'    =>  'elements',
         'add_songs_in_album'    =>  'push',
         'total_songs_in_album'  =>  'count',
-        'has_no_song'           => 'is_empty',
+        'has_no_song'           =>  'is_empty',
     }
 );
-
 
 method add_band($band) {
     $self->band($band);
 }
 
-method add_song($song) {
+method add_song($song) {    
     $self->add_songs_in_album($song);
 }
 
@@ -61,4 +59,3 @@ func album_duration() {
 }
 
 1;
-

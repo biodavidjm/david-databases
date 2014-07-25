@@ -40,6 +40,18 @@ has 'style' => (
     predicate => 'has_style',
 );
 
+has 'band' => (
+    is          =>  'rw',
+    isa         =>  'Object',
+    predicate   =>  'has_a_band',
+);
+
+has 'album' => (
+    is          =>  'rw',
+    isa         =>  'Object',
+    predicate   =>  'has_an_album',
+);
+
 method get_duration_seconds{
     my $millisec = $self->duration();
     
@@ -73,63 +85,13 @@ method get_duration_seconds{
 # before 'get_duration_seconds' => sub { print "\t\tAbout to call get_duration_seconds\n"; };
 # after 'get_duration_seconds'  => sub { print "\t\tjust called get_duration_seconds\n"; };
 
-
-method add_to_artist () {
-
+method add_band($band) {
+    $self->band($band);
 }
 
-method delete_artist () {
-
+method add_album($album) {
+    $self->album($album);
 }
-
-method add_album () {
-
-}
-
-method delete_album () {
-    
-}
-
-method add_to_playlist () {
-
-}
-
-method delete_from_playlist () {
-    
-}
-
-
-
-
-# method set_song_name (Str $key){
-
-# 	return $self->song_name($key);
-
-# }
-
-# method set_itunes_id (Int $key){
-
-# 	return $self->itunes_id($key);
-
-# }
-
-# method set_duration (Int $key){
-
-# 	return $self->duration($key);
-
-# }
-
-# method set_track_number (Int $key){
-
-# 	return $self->track_number($key);
-
-# }
-
-# method set_song_style (Str $key){
-
-# 	return $self->style($key);
-
-# }
 
 
 1;
