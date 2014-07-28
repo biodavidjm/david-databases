@@ -2,7 +2,9 @@ package Album;
 
 use Moose;
 use Method::Signatures;
+use Function::Parameters qw/:strict/;
 use feature qw/say/;
+
 
 has 'album_name' => (
     is       => 'rw',
@@ -31,7 +33,7 @@ has '_song_list' => (
     lazy    =>  1,
     default =>  sub { return[] },
     handles => {
-        'all_songs_in_album'    =>  'elements',
+        'all_songs'    =>  'elements',
         'add_songs_in_album'    =>  'push',
         'total_songs_in_album'  =>  'count',
         'has_no_song'           =>  'is_empty',
@@ -39,7 +41,14 @@ has '_song_list' => (
 );
 
 method add_band($band) {
-    $self->band($band);
+    if (!$self->has_a_band)
+    {
+        $self->band($band);
+    }
+    else
+    {
+        say "Sorry, band cannot be added";    
+    }
 }
 
 method add_song($song) {    
@@ -47,15 +56,12 @@ method add_song($song) {
 }
 
 method get_song() {
-    return $self->all_songs_in_album;
+    return $self->all_songs;
 }
 
 method total_song() {
     return $self->total_songs_in_album;
 }
 
-func album_duration() {
-    #Get all the songs in the album and calculate the sum of duration
-}
 
 1;

@@ -2,8 +2,8 @@ package Show;
 
 use Moose;
 use Method::Signatures;
-
 use Moose::Util::TypeConstraints;
+use Function::Parameters qw/:strict/;
 
 use feature qw/say/;
 

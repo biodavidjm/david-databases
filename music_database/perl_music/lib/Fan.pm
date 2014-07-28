@@ -2,6 +2,7 @@ package Fan;
 
 use Moose;
 use Method::Signatures;
+use Function::Parameters qw/:strict/;
 use feature qw/say/;
 
 has 'fan_name' => (

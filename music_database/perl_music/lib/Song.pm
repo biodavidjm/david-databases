@@ -2,6 +2,7 @@ package Song;
 
 use Moose;
 use Method::Signatures;
+use Function::Parameters qw/:strict/;
 use feature qw/say/;
 
 use POSIX; # For mathematical functions like ceil and floor

@@ -2,6 +2,7 @@ package Playlist;
 
 use Moose;
 use Method::Signatures;
+use Function::Parameters qw/:strict/;
 use feature qw/say/;
 
 use POSIX; # For mathematical functions like ceil and floor
@@ -26,23 +27,29 @@ has '_song_list' => (
     lazy    =>  1,
     default =>  sub { return[] },
     handles => {
-        'all_songs_in_playlist'    =>  'elements',
+        'all_songs'    =>  'elements',
         'add_songs_in_playlist'    =>  'push',
         'total_songs_in_playlist'  =>  'count',
         'has_no_song'           =>  'is_empty',
     }
 );
 
+with 'Duration';
+
 method add_song ($song) {
 	$self->add_songs_in_playlist($song);
 }
 
 method get_song () {
-	return $self->all_songs_in_playlist;	
+	return $self->all_songs;	
 }
 
 method total_song () {
 	return $self->total_songs_in_playlist;
+}
+
+method whole_duration() {
+    my @allsongs = $self->get_song;
 }
 
 method playlist_duration () {
@@ -85,38 +92,6 @@ sub get_duration_seconds{
     return $here;
 
 }
-
-
-
-# method set_song_name (Str $key){
-
-# 	return $self->song_name($key);
-
-# }
-
-# method set_itunes_id (Int $key){
-
-# 	return $self->itunes_id($key);
-
-# }
-
-# method set_duration (Int $key){
-
-# 	return $self->duration($key);
-
-# }
-
-# method set_track_number (Int $key){
-
-# 	return $self->track_number($key);
-
-# }
-
-# method set_song_style (Str $key){
-
-# 	return $self->style($key);
-
-# }
 
 
 1;

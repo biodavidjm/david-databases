@@ -1,18 +1,18 @@
 ---
-generation: 2
-last_run_time: 1406563323.50063
+generation: 59
+last_run_time: 1406582011.41311
 tests:
   t/test_music.t:
-    elapsed: 0.0561611652374268
-    gen: 2
-    last_fail_time: 1406563212.08177
-    last_pass_time: 1406563323.49991
+    elapsed: 0.0525898933410645
+    gen: 59
+    last_fail_time: 1406582007.8695
+    last_pass_time: 1406582011.41235
     last_result: 0
-    last_run_time: 1406563323.49991
+    last_run_time: 1406582011.41235
     last_todo: 0
-    mtime: 1406562256
-    seq: 2
-    total_failures: 1
-    total_passes: 1
+    mtime: 1406582010
+    seq: 59
+    total_failures: 25
+    total_passes: 34
 version: 1
 ...

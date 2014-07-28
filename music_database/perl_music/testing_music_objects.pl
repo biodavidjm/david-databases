@@ -1,9 +1,11 @@
 #!/usr/bin/perl -w
 
 use Modern::Perl;
+use strict;
 use feature qw/say/;
 use autodie qw/open close/;
 
+use Artist;
 use Band;
 use Album;
 use Song;
@@ -12,7 +14,6 @@ use Fan;
 use Playlist;
 
 system('clear');
-
 
 # CREATE OBJECTS OF EVERY CLASS FOR TESTING
 my $band_test = Band->new(
@@ -26,6 +27,15 @@ my $band_test2 = Band->new(
     country   => 'Spain',
 );
 say "The band is " . $band_test2->band_name . " from " . $band_test2->country;
+
+my $band_test3 = Artist->new(
+    band_name => 'Radiohead',
+    country   => 'England',
+    singer_name => 'David Gaham',
+);
+
+
+say "The name of the singer of ".$band_test3->band_name. " is ".$band_test3->singer_name;
 
 my $album_test = Album->new(
     album_name => 'Ok Computer',
@@ -183,6 +193,10 @@ say "\tPlaylist: " . $playlist_test->playlist_duration . "\n";
 $playlist_test->add_song($song_test2);
 say "\tLastSong: " . $song_test2->get_duration_seconds;
 say "\tPlaylist: " . $playlist_test->playlist_duration;
+
+say "\t\tPlaylist duration: ".$playlist_test->songlist_duration;
+
+$album_test->add_band($band_test2);
 
 exit;
 
