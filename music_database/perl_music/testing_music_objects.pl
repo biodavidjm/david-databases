@@ -13,13 +13,6 @@ use Playlist;
 
 system('clear');
 
-# # # # # # # # #
-#
-# To Do
-#
-# - - - - - - -
-#
-# # # # # # # # #
 
 # CREATE OBJECTS OF EVERY CLASS FOR TESTING
 my $band_test = Band->new(
