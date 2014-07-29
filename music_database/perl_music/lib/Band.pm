@@ -92,8 +92,8 @@ has '_fan_list' => (
 	handles	=> {
 		'all_fan_in_band'	=>	'elements',
 		'add_fan_in_band'	=>	'push',
-		'total_fan_in_band'	=>	'count',
-		'has_no_fan' 		=> 'is_empty',
+		'total_fan_in_band'	=> 	'count',
+		'has_no_fan' 		=>  'is_empty',
 	}
 );
 
@@ -167,8 +167,16 @@ method total_album() {
 	return $self->total_albums_in_band;
 }
 
+method delete_album() {
+	# This method is not needed at the moment
+}
+
 method add_song($song) {
 	$self->add_songs_in_band($song);
+}
+
+method delete_song() {
+	# This method is not needed at the moment
 }
 
 method get_song() {
@@ -187,6 +195,10 @@ method get_fan() {
 	return $self->all_fans_in_band;
 }
 
+method delete_fan() {
+	# This method is not needed at the moment
+}
+
 method total_fan() {
 	return $self->total_fans_in_band;
 }
@@ -197,6 +209,11 @@ method add_show($show){
 
 method get_show() {
 	return $self->all_shows_in_band;
+}
+
+method delete_show()
+{
+	# This method is not needed at the moment
 }
 
 method total_show() {
@@ -214,6 +231,8 @@ method band_song_duration () {
 	my $nice = get_duration_in_seconds($totaltime);
 	return $nice;
 }
+
+
 
 1;
 

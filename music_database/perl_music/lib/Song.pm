@@ -160,6 +160,14 @@ method add_band($band) {
     }
 }
 
+method delete_band() {
+    # This method is not needed at the moment
+}
+
+method replace_band() {
+    # This method is not needed at the moment
+}
+
 method add_album($album) {
     if (!$self->has_an_album)
     {
@@ -169,6 +177,14 @@ method add_album($album) {
     {
         say "\n\tSorry, band cannot be added. The song '".$self->song_name."' already has an album (".$self->band->band_name.")";    
     }
+}
+
+method delete_album() {
+    # This method is not needed at the moment
+}
+
+method replace_album() {
+    # This method is not needed at the moment
 }
 
 

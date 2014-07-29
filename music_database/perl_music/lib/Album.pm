@@ -90,20 +90,29 @@ method add_band($band) {
     }
 }
 
-method add_song($song) {    
+method delete_band(){
+    # This method is not needed at the moment
+}
 
-    $self->add_songs_in_album($song);
+method replace_band()
+{
+    # This method is not needed
 }
 
 method add_song ($song) {
-    if( $self->search_song($song->song_name) )
+    if( !( $self->search_song($song->song_name) ) )
     {
         $self->add_songs_in_album($song);
+        say "\t\tThe song <".$song->song_name."> has been added to Album <".$self->album_name.">";
     }
     else
     {
         say "\n\tThis song is already in this album\n";
     }
+}
+
+method delete_song() {
+    #This method is not needed at the moment.
 }
 
 =pod

@@ -89,6 +89,10 @@ method add_song ($song) {
     }
 }
 
+method delele_song () {
+    # This method is not needed at the moment
+}
+
 method get_song () {
 	return $self->all_songs;	
 }

@@ -24,20 +24,24 @@ my $band_test2 = Band->new(
     country   => 'Spain',
 );
 
+can_ok($module, @methods);
+
+
 # Test band objects:
 isa_ok($band_test1, 'Band');
-can_ok($band_test1, 'add_album');
-can_ok($band_test1, 'get_album');
-can_ok($band_test1, 'total_album');
-can_ok($band_test1, 'add_song');
-can_ok($band_test1, 'get_song');
-can_ok($band_test1, 'total_song');
-can_ok($band_test1, 'add_fan');
-can_ok($band_test1, 'get_fan');
-can_ok($band_test1, 'total_fan');
-can_ok($band_test1, 'add_show');
-can_ok($band_test1, 'get_show');
-can_ok($band_test1, 'total_show');
+
+# can_ok($band_test1, 'add_album', 'get_album');
+# can_ok($band_test1, 'get_album');
+# can_ok($band_test1, 'total_album');
+# can_ok($band_test1, 'add_song');
+# can_ok($band_test1, 'get_song');
+# can_ok($band_test1, 'total_song');
+# can_ok($band_test1, 'add_fan');
+# can_ok($band_test1, 'get_fan');
+# can_ok($band_test1, 'total_fan');
+# can_ok($band_test1, 'add_show');
+# can_ok($band_test1, 'get_show');
+# can_ok($band_test1, 'total_show');
 
 
 # Album examples
@@ -56,6 +60,8 @@ can_ok($album_test1, 'add_band');
 can_ok($album_test1, 'add_song');
 can_ok($album_test1, 'get_song');
 can_ok($album_test1, 'total_song');
+can_ok($album_test1, 'album_song_duration');
+can_ok($album_test1, 'search_song');
 
 
 # Songs examples
@@ -98,7 +104,10 @@ is ($album_test1->has_a_band, 1);
 
 $album_test1->add_song($song_test1);
 $album_test1->add_song($song_test2);
-is($album_test1->total_song, 2);
+is ($album_test1->total_song, 2);
+$album_
+# is($album_test1->add_song($song_test1), 1);
+
 
 
 

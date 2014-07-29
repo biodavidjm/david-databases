@@ -112,6 +112,7 @@ my $numberalbums = $band_test->total_album;
 
 say "\tNumber of bands: " . $numberalbums;
 
+
 my @temp = $band_test->get_album;
 foreach my $album (@temp) {
     say "\t" . $band_test->band_name . " " . $album->album_name, "  ",
@@ -146,7 +147,11 @@ $album_test->add_song($song_test);
 $album_test->add_song($song_test2);
 $album_test->add_song($song_test3);
 
-say "\tYou have " . $album_test->total_song . " songs for this artist";
+say "\tYou have " . $album_test->total_song . " songs for this album";
+
+exit;
+
+
 my @songs2 = $album_test->get_song;
 foreach my $song (@songs2) {
     print "\t\t"
@@ -160,6 +165,8 @@ foreach my $song (@songs2) {
         . " (remember, the band is: "
         . $album_test->band->band_name . ")\n";
 }
+
+exit;
 
 $song_test->add_band($band_test);
 $song_test->add_album($album_test);
