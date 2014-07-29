@@ -5,7 +5,9 @@ use Method::Signatures;
 use Function::Parameters qw/:strict/;
 use feature qw/say/;
 
+# This is just to illustrate the concept of...
 # Inheritance
+
 extends 'Band';
 
 has 'singer_name' => (

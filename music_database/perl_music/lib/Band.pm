@@ -1,10 +1,40 @@
 package Band;
 
+=pod
+
+=head1 Band
+
+Band -- A package class about a BAND of music
+
+=cut
+
 use Moose;
 use Method::Signatures;
+use Function::Parameters qw/:strict/;
 use feature qw/say/;
 
-# Attributes
+=pod
+
+=head1 ATTRIBUTES
+
+=head2 Required
+
+I<band_name>
+
+=head2 Not required
+
+- I<country>
+
+- I<album> objects
+
+- I<song> objects
+
+- I<fan> objects
+
+- I<show> objects
+
+=cut
+
 has 'band_name' => (
 	is => 'rw',
 	isa => 'Str',
@@ -37,14 +67,6 @@ has '_album_list' => (
 		'has_no_album' 			=>  'is_empty',
 	}
 );
-
-# has '_album_list' => (
-# 	is		=>	'rw',
-# 	isa		=>	'ArrayRef',
-# 	auto_deref	=>	1,
-# 	lazy	=>	1,
-# 	default	=>	sub { return[] },
-# );
 
 
 has '_song_list' => (
@@ -89,11 +111,46 @@ has '_show_list' => (
 	}
 );
 
+with 'TotalDuration';
+
 # sub BUILD () {
 # 	say  "\tyes? someone has create an object with the Band class?";
 # 	say "\tok, the band is ";
 # 	# my $whatever = $self->band_name();
 # }
+
+=pod
+
+=head1 METHODS
+
+B<add_album()>, A Band can have multiple Albums. This method adds a "Album" objects,
+
+B<get_album()>, get a list of album' objects
+
+B<total_album()>, get the total number of albums,
+
+B<add_song()>, add a Song object,
+
+B<get_song()>, get a list of Song objects,
+
+B<total_song()>, total number of songs,
+
+B<add_fan()>, add a Fan object,
+
+B<get_fan()>, get a fan list object,
+
+B<total_fan()>, get the total number of fan objects,
+
+B<add_show()>, add a show object,
+
+B<get_show()>, get list of show objects,
+
+B<total_show()>, get total number of shows,
+
+B<band_song_duration()>, get the total duration of songs for this Band (using TotalDuration role),
+
+
+=cut
 
 method add_album($album) {
 	# my $all_albums = $self->_album_list;
@@ -122,7 +179,6 @@ method total_song() {
 	return $self->total_songs_in_band;
 }
 
-
 method add_fan($fan){
 	$self->add_fan_in_band($fan);
 }
@@ -147,4 +203,18 @@ method total_show() {
 	return $self->total_shows_in_band;
 }
 
+# the method requiring the role TotalDuration
+method band_song_duration () {
+	my @allsongs = $self->get_song;
+	my $totaltime  = 0;
+	foreach my $song (@allsongs)
+	{
+		$totaltime+=$song->duration;
+	}
+	my $nice = get_duration_in_seconds($totaltime);
+	return $nice;
+}
+
 1;
+
+__END__

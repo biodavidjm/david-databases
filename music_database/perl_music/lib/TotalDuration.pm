@@ -1,19 +1,10 @@
-package Duration;
+package TotalDuration;
 
 use Moose::Role;
+use POSIX; # For mathematical functions like ceil and floor
 
-method songlist_duration (@allsongs{
-  # my @allsongs = $self->get_song;
-  my $totaltime  = 0;
-  foreach my $song (@allsongs)
-  {
-    $totaltime+=$song->duration;
-  }
-  my $nice = get_duration_seconds($totaltime);
-  return $nice;
-}
 
-sub get_duration_seconds{
+sub get_duration_in_seconds{
     my ($millisec) = @_;
         
     # CONVERT TO HH:MM:SS
@@ -42,3 +33,5 @@ sub get_duration_seconds{
     return $here;
 
 }
+
+1;

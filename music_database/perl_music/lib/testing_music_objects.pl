@@ -29,13 +29,14 @@ my $band_test2 = Band->new(
 say "The band is " . $band_test2->band_name . " from " . $band_test2->country;
 
 my $band_test3 = Artist->new(
-    band_name => 'Radiohead',
-    country   => 'England',
+    band_name   => 'Radiohead',
+    country     => 'England',
     singer_name => 'David Gaham',
 );
 
-
-say "The name of the singer of ".$band_test3->band_name. " is ".$band_test3->singer_name;
+say "The name of the singer of "
+    . $band_test3->band_name . " is "
+    . $band_test3->singer_name;
 
 my $album_test = Album->new(
     album_name => 'Ok Computer',
@@ -76,6 +77,14 @@ my $song_test2 = Song->new(
     itunes_id    => '19809',
     duration     => '286476',
     track_number => '2',
+    style        => 'pop rock',
+);
+
+my $song_test3 = Song->new(
+    song_name    => 'Karma Police',
+    itunes_id    => '19820',
+    duration     => '28667',
+    track_number => '6',
     style        => 'pop rock',
 );
 
@@ -135,6 +144,7 @@ say "\tThe album '"
     . $album_test->band->band_name;
 $album_test->add_song($song_test);
 $album_test->add_song($song_test2);
+$album_test->add_song($song_test3);
 
 say "\tYou have " . $album_test->total_song . " songs for this artist";
 my @songs2 = $album_test->get_song;
@@ -194,10 +204,28 @@ $playlist_test->add_song($song_test2);
 say "\tLastSong: " . $song_test2->get_duration_seconds;
 say "\tPlaylist: " . $playlist_test->playlist_duration;
 
-# say "\t\tPlaylist duration: ".$playlist_test->playlist_duration;
+say "\t\tPlaylist duration: " . $playlist_test->playlist_duration;
 
-$album_test->add_band($band_test2);
+say "\n\t\tNow tell me the total duration of songs in band: "
+    . $band_test->band_song_duration;
 
+say "\t\tNow say the total duration of the album <"
+    . $album_test->album_name . "> of <"
+    . $album_test->band->band_name . "> = "
+    . $album_test->album_song_duration;
+
+    # Testing that you cannot add a second band to the object
+    $album_test->add_band($band_test2);
+
+    $song_test->add_album($album_test2);
+
+    if ( $playlist_test->search_song($song_test->song_name) )
+    {
+        say "ooops, the song is already there!";
+    }
+
+    $playlist_test->add_song($song_test);
+ 
 exit;
 
 =head1 NAME
