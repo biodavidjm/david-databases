@@ -95,6 +95,7 @@ say "Song: "
     . $song_test->get_duration_seconds
     . " seconds)";
 
+
 my $fan_test = Fan->new( fan_name => 'David', );
 
 say $fan_test->fan_name() . " is a big fan of the band";
