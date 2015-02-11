@@ -1,10 +1,78 @@
-# SQL statements
+-- SQL statements
 
-- (wrong) SQL to get the protein coding genes. Problems:
-	* it is not a unique list: there are duplications (solve with DISTINCT)
-	* There are 74 extra genes that do not appear in the ``gp2protein`` file
+-- INFO FROM ORACLE:
+-- Oracle version:
+SELECT * FROM PRODUCT_COMPONENT_VERSION;
+
+-- SID: 
+select value from v$parameter where name='service_names'
+
+
+SELECT sorder.stock_order_id order_id, sc.id id, sc.systematic_name stock_name, colleague.first_name, colleague.last_name, colleague.colleague_no,
+sorder.order_date FROM cgm_ddb.stock_center sc
+JOIN cgm_ddb.stock_item_order sitem ON sc.id=sitem.item_id
+JOIN cgm_ddb.stock_order sorder ON sorder.stock_order_id=sitem.order_id
+JOIN cgm_ddb.colleague ON colleague.colleague_no = sorder.colleague_id
+ORDER BY order_id
+
+UNION ALL
+
+SELECT sorder.stock_order_id order_id, sc.id id, sc.name stock_name, colleague.first_name, colleague.last_name, colleague.colleague_no,
+sorder.order_date FROM plasmid sc
+JOIN stock_item_order sitem ON sc.name=sitem.item
+JOIN stock_order sorder ON sorder.stock_order_id=sitem.stock_item_order_id
+JOIN colleague ON colleague.colleague_no = sorder.colleague_id
+
+
+-- LET'S COMBINE
+
+SELECT so.stock_order_id, so.order_date, sio.item_id, sio.item NAME FROM stock_order so
+JOIN stock_item_order sio ON so.stock_order_id=sio.item_id
+WHERE sio.item = 'pDM323'
+
+
+-- LINKING PLASMID AND STOCK_ITEM_ORDER
+SELECT sio.item_id, sio.item, plasmid.id, plasmid.name FROM stock_item_order sio
+JOIN plasmid ON sio.item=plasmid.name
+ORDER BY sio.item_id
+WHERE sio.item = 'pDM450'
+
+-- Is the plasmid.id and stock_item_order.id equal?
+SELECT sio.item_id, plasmid.id FROM stock_item_order sio
+JOIN plasmid ON sio.item=plasmid.name
+ORDER BY sio.item_id
+
+SELECT so.stock_order_id, sio.item_id, sio.item FROM stock_order so
+JOIN STOCK_ITEM_ORDER sio ON so.stock_order_id=sio.item_id
+ORDER BY sio.item_id
+
+-- Studying relationship stock_center and plasmid
+
+SELECT sc.id stock_center_id, pl.id plasmid_id, sc.strain_name, pl.name FROM stock_center sc
+JOIN plasmid pl ON pl.id=sc.id
+
+SELECT 
+
+SELECT count(sc.id) stock_center_id FROM stock_center sc
+JOIN plasmid pl ON pl.id=sc.id
+
+SELECT sc.id stock_center_id, pl.id plasmid_id, sc.strain_name, pl.name FROM stock_center sc
+JOIN plasmid pl ON pl.id=sc.id
+
+SELECT sorder.stock_order_id order_id, sc.id id, sc.systematic_name stock_name, colleague.first_name, colleague.last_name, colleague.colleague_no,
+sorder.order_date FROM cgm_ddb.stock_center sc
+JOIN cgm_ddb.stock_item_order sitem ON sc.id=sitem.item_id
+JOIN cgm_ddb.plasmid ON sitem.item_id
+JOIN cgm_ddb.stock_order sorder ON sorder.stock_order_id=sitem.order_id
+JOIN cgm_ddb.colleague ON colleague.colleague_no = sorder.colleague_id
+ORDER BY order_id
+
+
+-- (wrong) SQL to get the protein coding genes. Problems:
+-- 	* it is not a unique list: there are duplications (solve with DISTINCT)
+-- 	* There are 74 extra genes that do not appear in the gp2protein file
 	
-```
+
 SELECT DISTINCT dbxref.accession gene_id, gene.feature_id, gene.name
 FROM cgm_chado.feature gene
 JOIN organism ON organism.organism_id=gene.organism_id
@@ -17,12 +85,12 @@ WHERE gtype.name='gene'
         AND mtype.name='mRNA' 
         AND organism.common_name = 'dicty' 
         AND gene.is_deleted = 0 
-        AND gene.name NOT LIKE '%\_ps%' ESCAPE '\'
-```
+        AND gene.name NOT LIKE '%\_ps%' ESCAPE '\\'
 
-- Select all the DDB_G IDS and protein alternative names:
 
-```
+## Select all the DDB_G IDS and protein alternative names:
+
+
 SELECT dbxref.accession gene_id, wm_concat(syn.name) gsyn
 FROM cgm_chado.feature gene
 JOIN dbxref on dbxref.dbxref_id=gene.dbxref_id
@@ -30,41 +98,41 @@ LEFT JOIN cgm_chado.feature_synonym fsyn on gene.feature_id=fsyn.feature_id
 LEFT JOIN cgm_chado.synonym_ syn on syn.synonym_id=fsyn.SYNONYM_ID
 WHERE dbxref.accession LIKE 'DDB_G%'
 GROUP BY dbxref.ACCESSION
-```
 
-- Select GENE_NAME and DDB_G_ID, given the gene name
 
-```
+-- - Select GENE_NAME and DDB_G_ID, given the gene name
+
+
 SELECT gene.name AS GENE_NAME, dbx.accession AS DDB_G_ID
 FROM cgm_chado.feature gene
 INNER JOIN cgm_chado.dbxref dbx ON gene.dbxref_id = dbx.dbxref_id
 WHERE gene.name = 'fam21'
-```
 
-- Gene name, primary feature id, and the gene product
 
-```
+-- - Gene name, primary feature id, and the gene product
+
+
 SELECT g.gene_name, g.primary_feature_dictybaseid, gp.gene_product
 FROM cgm_ddb.gene_product gp
 INNER JOIN cgm_ddb.locus_gp lgp 	ON 		lgp.gene_product_no = gp.gene_product_no
 INNER JOIN cgm_chado.v_gene_dictybaseid g      ON 	lgp.locus_no = g.gene_feature_id
 ORDER BY gp.gene_product
-```
 
-- The gene name and DDB_G_ID
 
-```
+-- The gene name and DDB_G_ID
+
+
 SELECT g.name  AS GENE_NAME, dx.accession AS DDB_G_ID
 FROM cgm_chado.v_gene_features g
 INNER JOIN cgm_chado.dbxref dx           ON g.dbxref_id = dx.dbxref_id
 INNER JOIN cgm_chado.organism o          ON o.organism_id    = g.organism_id
 INNER JOIN cgm_chado.feature f 			ON f.dbxref_id = g.dbxref_id
 WHERE o.common_name = 'dicty'
-```
 
-- 1 and 2 together!
 
-```
+-- 1 and 2 together!
+
+
 SELECT dx.accession AS DDB_G_ID, d.gene_name, d.primary_feature_dictybaseid, gp.gene_product
 FROM cgm_ddb.gene_product gp
 INNER JOIN cgm_ddb.locus_gp lgp 	ON 		lgp.gene_product_no = gp.gene_product_no
@@ -75,11 +143,11 @@ INNER JOIN cgm_chado.organism o             ON o.organism_id    = g.organism_id
 INNER JOIN cgm_chado.feature f 			    ON f.dbxref_id = g.dbxref_id
 WHERE o.common_name = 'dicty'
 ORDER BY dx.accession, gp.gene_product
-```
 
-- Mapping DDB_G_ID to UNIPROT id (this is an incomplete, not accurate search. Go to the next one)
 
-```
+-- Mapping DDB_G_ID to UNIPROT id (this is an incomplete, not accurate search. Go to the next one)
+
+
 SELECT gxref.accession geneid, dbxref.accession uniprot
 FROM dbxref
 	JOIN db ON db.db_id = dbxref.db_id
@@ -98,11 +166,11 @@ WHERE
 	AND	mtype.name = 'mRNA'
 	AND	gtype.name = 'gene'
 	AND	db.name = 'DB:SwissProt'
-```
 
-- Mapping DDB_G_ID to Uniprot id, but this time the gene model and chado model is taken into account, which means that if the gene has been curated. Even though there is a little problem with this SQL: it does not select all the protein coding genes than the gp2protein file contains. that files has an additional 54 proteins that belongs to the transposable elements.
 
-```
+-- Mapping DDB_G_ID to Uniprot id, but this time the gene model and chado model is taken into account, which means that if the gene has been curated. Even though there is a little problem with this SQL: it does not select all the protein coding genes than the gp2protein file contains. that files has an additional 54 proteins that belongs to the transposable elements.
+
+
 SELECT gxref.accession geneid, dbxref.accession uniprot
 FROM dbxref
     JOIN db ON db.db_id = dbxref.db_id
@@ -127,11 +195,11 @@ WHERE
     AND db.name = 'DB:SwissProt'
     AND dbxref2.accession = 'dictyBase Curator'
     AND transcript.is_deleted = 0
-```
 
-- Get for a gene name the ``GFF source`` (i.e., if it's from the sequencing center or from the curator).
 
-```
+-- Get for a gene name the GFF source (i.e., if it's from the sequencing center or from the curator).
+
+
 SELECT gxref.accession, gene.uniquename, transcript.uniquename, dbxref.accession, db.name
 FROM feature gene
 JOIN feature_relationship frel ON gene.feature_id = frel.object_id
@@ -144,9 +212,9 @@ JOIN dbxref gxref ON gene.dbxref_id = gxref.dbxref_id
 WHERE gene.name = 'sadA'
 AND cvterm.name = 'mRNA'
 AND db.name = 'GFF_source'
-```
 
-```
+
+
 SELECT gxref.accession, gene.uniquename, transcript.uniquename, dbxref.accession, db.name, transcript.IS_DELETED
 FROM feature gene
 JOIN feature_relationship frel ON gene.feature_id = frel.object_id
@@ -159,12 +227,12 @@ JOIN dbxref gxref ON gene.dbxref_id = gxref.dbxref_id
 WHERE cvterm.name = 'mRNA'
 AND db.name = 'GFF_source'
 AND gxref.accession = 'DDB_G0290109'
-```
 
 
-- Split genes
 
-```
+-- Split genes
+
+
 WITH split_replaced AS( SELECT dbxref.accession acc 
 	  FROM cgm_chado.featureprop fprop 
 	  JOIN cgm_chado.cvterm on cvterm.cvterm_id=fprop.type_id 
@@ -185,5 +253,5 @@ SELECT to_char(fprop.value) split_id
   JOIN split_replaced on split_replaced.acc=dbxref.accession 
  WHERE cvterm.name = 'replaced by' 
    AND fprop.value like 'DDB_G%'
-```
+
 
