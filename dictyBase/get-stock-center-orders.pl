@@ -26,9 +26,11 @@ my $dsn  = "dbi:Oracle:host=$host;sid=orcl;port=1521";
 
 print "Connecting to the database... ";
 my $dbh = DBI->connect( $dsn, $user, $pass );
-say " success!!\n";
+say " success!!";
 
-say "Getting " my $sth = $dbh->prepare( '
+print "Getting the data..";
+
+my $sth = $dbh->prepare( '
 	SELECT so.stock_order_id, so.order_date, sio.item_id, sio.item item_name, 
 	colleague.first_name, colleague.last_name, email.email FROM cgm_ddb.stock_order so
 	JOIN cgm_ddb.stock_item_order sio ON so.stock_order_id=sio.item_id
@@ -49,6 +51,8 @@ $csv->print(
     ]
 );
 
+print "..printing to a file ";
+
 while (
     my ($stock_order_id, $order_date, $item_id, $item_name,
         $first_name,     $last_name,  $email
@@ -68,6 +72,8 @@ while (
 $sth->finish();
 
 $dbh->disconnect();
+
+print "...and done!\n";
 
 exit;
 
