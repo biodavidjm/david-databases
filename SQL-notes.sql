@@ -23,12 +23,34 @@ JOIN stock_item_order sitem ON sc.name=sitem.item
 JOIN stock_order sorder ON sorder.stock_order_id=sitem.stock_item_order_id
 JOIN colleague ON colleague.colleague_no = sorder.colleague_id
 
+-- TESTING
+
+SELECT sorder.stock_order_id order_id, sc.id id, sc.systematic_name stock_name, 
+colleague.first_name, colleague.last_name, colleague.colleague_no,
+sorder.order_date, email.email
+FROM cgm_ddb.stock_center sc
+JOIN cgm_ddb.stock_item_order sitem ON sc.id=sitem.item_id
+JOIN cgm_ddb.stock_order sorder ON sorder.stock_order_id=sitem.order_id
+JOIN cgm_ddb.colleague ON colleague.colleague_no = sorder.colleague_id
+JOIN coll_email colemail ON colleague.colleague_no=colemail.colleague_no
+JOIN email ON colemail.email_no=email.email_no
+ORDER BY order_id
+
 
 -- LET'S COMBINE
 
+SELECT so.stock_order_id, so.order_date, sio.item_id, sio.item item_name, 
+colleague.first_name, colleague.last_name, email.email FROM cgm_ddb.stock_order so
+JOIN cgm_ddb.stock_item_order sio ON so.stock_order_id=sio.item_id
+JOIN cgm_ddb.colleague ON so.colleague_id=colleague.colleague_no
+JOIN cgm_ddb.coll_email colemail ON colleague.colleague_no=colemail.colleague_no
+JOIN cgm_ddb.email ON colemail.email_no=email.email_no
+
+
+
 SELECT so.stock_order_id, so.order_date, sio.item_id, sio.item NAME FROM stock_order so
 JOIN stock_item_order sio ON so.stock_order_id=sio.item_id
-WHERE sio.item = 'pDM323'
+WHERE sio.item = 'pDM450'
 
 
 -- LINKING PLASMID AND STOCK_ITEM_ORDER
