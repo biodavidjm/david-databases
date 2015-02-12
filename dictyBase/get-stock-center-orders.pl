@@ -27,7 +27,7 @@ print "Connecting to the database... ";
 my $dbh = DBI->connect( $dsn, $user, $pass );
 say " success!!";
 
-print "Getting the data..";
+print "Getting the data... ";
 
 my $sth = $dbh->prepare( '
 	select sorder.stock_order_id order_id, sc.id id, sc.systematic_name stock_name, 
@@ -41,22 +41,22 @@ my $sth = $dbh->prepare( '
 	) 
 	join cgm_ddb.stock_order sorder on sorder.stock_order_id=sitem.order_id
 	join cgm_ddb.colleague on colleague.colleague_no = sorder.colleague_id
-	JOIN cgm_ddb.coll_email colemail ON colemail.colleague_no=colleague.colleague_no
-	JOIN cgm_ddb.email ON email.email_no=colemail.email_no
+	join cgm_ddb.coll_email colemail on colemail.colleague_no=colleague.colleague_no
+	join cgm_ddb.email on email.email_no=colemail.email_no
 	UNION ALL
 	select sorder.stock_order_id order_id, sc.id id, sc.name stock_name, 
 	colleague.first_name, colleague.last_name, colleague.colleague_no,
-	sorder.order_date, email.email from plasmid sc
-	join stock_item_order sitem on 
+	sorder.order_date, email.email from cgm_ddb.plasmid sc
+	join cgm_ddb.stock_item_order sitem on 
 	(
 	      sc.name=sitem.item
 	      AND
 	      sc.id = sitem.item_id
 	)
-	join stock_order sorder on sorder.stock_order_id=sitem.order_id
-	join colleague on colleague.colleague_no = sorder.colleague_id
-	JOIN cgm_ddb.coll_email colemail ON colemail.colleague_no=colleague.colleague_no
-	JOIN cgm_ddb.email ON email.email_no=colemail.email_no
+	join cgm_ddb.stock_order sorder on sorder.stock_order_id=sitem.order_id
+	join cgm_ddb.colleague on colleague.colleague_no = sorder.colleague_id
+	join cgm_ddb.coll_email colemail on colemail.colleague_no=colleague.colleague_no
+	join cgm_ddb.email on email.email_no=colemail.email_no
 ' );
 
 $sth->execute();
@@ -73,7 +73,9 @@ $csv->print(
     ]
 );
 
-print "..printing to a file ";
+$output->print("\n");
+
+print "printing to a file... ";
 
 while (
     my ($stock_order_id, $sc_id,        $stock_name, $first_name,
