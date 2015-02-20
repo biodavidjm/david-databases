@@ -17,4 +17,8 @@ SELECT count(*) FROM
     SELECT whatever...
 )
 
+-- NULL
+WHERE COLUMN_NAME IS NOT NULL
 
+-- LEFT JOIN vs INNER JOIN BETWEEN A AND B
+Attach the image and rename this to a md file
