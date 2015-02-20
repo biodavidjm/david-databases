@@ -30,46 +30,64 @@ say " success!!";
 print "Getting the data... ";
 
 my $sth = $dbh->prepare( '
-	select sorder.stock_order_id order_id, sc.id id, sc.systematic_name stock_name, 
-	colleague.first_name, colleague.last_name, colleague.colleague_no,
-	sorder.order_date, email.email from cgm_ddb.stock_center sc
-	join cgm_ddb.stock_item_order sitem on 
+	SELECT
+	sorder.stock_order_id order_id,
+	sorder.order_date,
+	sc.id id,
+	sc.systematic_name stock_name, 
+	colleague.first_name,
+	colleague.last_name,
+	colleague.colleague_no,
+	email.email 
+	FROM cgm_ddb.stock_center sc
+	JOIN cgm_ddb.stock_item_order sitem ON 
 	( 
 	    sc.id=sitem.item_id
 	    AND
 	    sc.strain_name = sitem.item
 	) 
-	join cgm_ddb.stock_order sorder on sorder.stock_order_id=sitem.order_id
-	join cgm_ddb.colleague on colleague.colleague_no = sorder.colleague_id
-	join cgm_ddb.coll_email colemail on colemail.colleague_no=colleague.colleague_no
-	join cgm_ddb.email on email.email_no=colemail.email_no
+	JOIN cgm_ddb.stock_order sorder ON sorder.stock_order_id=sitem.order_id
+	JOIN cgm_ddb.colleague ON colleague.colleague_no = sorder.colleague_id
+	JOIN cgm_ddb.coll_email colemail ON colemail.colleague_no=colleague.colleague_no
+	JOIN cgm_ddb.email ON email.email_no=colemail.email_no
 	UNION ALL
-	select sorder.stock_order_id order_id, sc.id id, sc.name stock_name, 
-	colleague.first_name, colleague.last_name, colleague.colleague_no,
-	sorder.order_date, email.email from cgm_ddb.plasmid sc
-	join cgm_ddb.stock_item_order sitem on 
+	SELECT
+	sorder.stock_order_id order_id, 
+	sorder.order_date, 
+	sc.id id, 
+	sc.name stock_name, 
+	colleague.first_name, 
+	colleague.last_name, 
+	colleague.colleague_no,
+	email.email 
+	FROM cgm_ddb.plasmid sc
+	JOIN cgm_ddb.stock_item_order sitem ON 
 	(
 	      sc.name=sitem.item
 	      AND
 	      sc.id = sitem.item_id
 	)
-	join cgm_ddb.stock_order sorder on sorder.stock_order_id=sitem.order_id
-	join cgm_ddb.colleague on colleague.colleague_no = sorder.colleague_id
-	join cgm_ddb.coll_email colemail on colemail.colleague_no=colleague.colleague_no
-	join cgm_ddb.email on email.email_no=colemail.email_no
+	JOIN cgm_ddb.stock_order sorder ON sorder.stock_order_id=sitem.order_id
+	JOIN cgm_ddb.colleague ON colleague.colleague_no = sorder.colleague_id
+	JOIN cgm_ddb.coll_email colemail ON colemail.colleague_no=colleague.colleague_no
+	JOIN cgm_ddb.email ON email.email_no=colemail.email_no
 ' );
 
 $sth->execute();
 
-my $filename = "stock_center_orders.csv";
+my $filename = "stock_center_orders-all.csv";
+
 my $output   = IO::File->new(">$filename");
 
 my $csv = Text::CSV->new( { auto_diag => 1, binary => 1 } );
 
 $csv->print(
     $output,
-    [   "StockOrder_ID", "StockID",    "StockName", "FirstName",
-        "LastName",      "Colleague#", "OrderDate", "email"
+    [   "StockOrder_ID", "OrderDate", "StockID", "StockName", 
+    	"FirstName", 
+    	"LastName", 
+    	"Colleague#", 
+    	"email"
     ]
 );
 
@@ -77,17 +95,22 @@ $output->print("\n");
 
 print "printing to a file... ";
 
-while (
-    my ($stock_order_id, $sc_id,        $stock_name, $first_name,
-        $last_name,      $colleague_no, $order_date, $email
-    )
-    = $sth->fetchrow()
-    )
+while 	(
+    my($stock_order_id, $order_date, $sc_id, $stock_name, 
+    	$first_name,
+        $last_name,      
+        $colleague_no,  
+        $email
+    ) = $sth->fetchrow()
+)
 {
     $csv->print(
         $output,
-        [   $stock_order_id, $sc_id,        $stock_name, $first_name,
-            $last_name,      $colleague_no, $order_date, $email
+        [   $stock_order_id, $order_date, $sc_id, $stock_name, 
+        	$first_name,
+            $last_name,      
+            $colleague_no,  
+            $email
         ]
     );
     $output->print("\n");
@@ -97,7 +120,7 @@ $sth->finish();
 
 $dbh->disconnect();
 
-print "...and done!\n";
+print "...and $filename ready!\n";
 
 exit;
 

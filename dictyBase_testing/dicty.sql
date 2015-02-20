@@ -1,13 +1,4 @@
--- SQL statements
-
--- INFO FROM ORACLE:
--- Oracle version:
-SELECT * FROM PRODUCT_COMPONENT_VERSION;
-
--- SID: 
-select value from v$parameter where name='service_names'
-
-
+-- SQL STATEMENTS ON THE dictyBase
 
 
 -- (wrong) SQL to get the protein coding genes. Problems:
