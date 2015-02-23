@@ -250,3 +250,5 @@ SELECT TO_CHAR(order_date, 'YYYY-MM-DD'), COUNT(*)
 FROM cgm_ddb.stock_order
 GROUP BY TO_CHAR(order_date, 'YYYY-MM-DD')
 ORDER BY 1
+
+
