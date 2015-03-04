@@ -10,7 +10,7 @@ Graph databases helps you to find similar patterns, no matter what the relations
 ### Start Neo4j
 
 ```
-cd /Users/djt469/bin/neo4j-enterprise-2.2.0-M04
+cd bin/neo4j-enterprise-2.2.0-M04
 bin/neo4j start
 :play movies
 ```

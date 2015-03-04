@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 
 use strict;
+use warnings;
 use feature qw/say/;
 
 use DBI;
@@ -8,7 +9,7 @@ use DBI;
 use Text::CSV;
 use IO::Handle;
 use Getopt::Long;
-use warnings;
+use Carp;
 
 my %options;
 GetOptions( \%options, 'host=s', 'user=s', 'passwd=s' );
@@ -54,11 +55,16 @@ my $sth = $dbh->prepare( '
 
 $sth->execute();
 
-my $filename = "stock_center_orders-plasmids2.csv";
+my $filename = "stock_center_orders-plasmids100.csv";
 
-my $output   = IO::File->new(">$filename");
+my $output = IO::File->new(">$filename");
 
-my $csv = Text::CSV->new( { auto_diag => 1, binary => 1 } );
+my $csv = Text::CSV->new (
+    {
+        auto_diag => 1, 
+        binary => 1
+    }
+) or croak "Cannot use CSV: " . Text::CSV->error_diag();
 
 $csv->print(
     $output,
@@ -100,15 +106,26 @@ while 	(
 	my $last_name_in = check_if_empty_name($last_name);
 	my $emailin = check_if_empty_email($email);
     $csv->print(
+        # $output,
+        # [   $stock_order_id, 
+        # 	$order_date, 
+        # 	$sc_id, 
+        # 	$stock_name, 
+        # 	$colleague_no_in,
+        # 	$first_name_in,
+        #     $last_name_in,      
+        #     $emailin
+        # ]
+
         $output,
         [   $stock_order_id, 
-        	$order_date, 
-        	$sc_id, 
-        	$stock_name, 
-        	$colleague_no_in,
-        	$first_name_in,
-            $last_name_in,      
-            $emailin
+            $order_date, 
+            $sc_id, 
+            $stock_name, 
+            $colleague_no,
+            $first_name,
+            $last_name,      
+            $email
         ]
     );
     $output->print("\n");
