@@ -62,20 +62,27 @@ my $output = IO::File->new(">$filename");
 my $csv = Text::CSV->new (
     {
         auto_diag => 1, 
-        binary => 1
+        binary => 0,
+        blank_is_undef => 1,
+        empty_is_undef => 1,
+        quote_null => 1,
+        quote_binary => 1
+
     }
 ) or croak "Cannot use CSV: " . Text::CSV->error_diag();
 
+$csv->column_names (qw( code name price description ));
 $csv->print(
     $output,
-    [   "StockOrder_ID", 
+    [   
+        "StockOrder_ID", 
     	"OrderDate", 
     	"StockID", 
     	"StockName", 
     	"ColleagueID",
     	"FirstName", 
-    	"LastName", 
-    	"email"
+    	"LastName",
+        "email"
     ]
 );
 
@@ -101,10 +108,11 @@ while 	(
 	stop_empty($sc_id);
 	stop_empty($stock_name);
 	# Not required values that might be empty.
-	my $colleague_no_in = check_if_empty_col_num($colleague_no);
-	my $first_name_in = check_if_empty_name($first_name);
-	my $last_name_in = check_if_empty_name($last_name);
-	my $emailin = check_if_empty_email($email);
+	# my $colleague_no_in = check_if_empty_col_num($colleague_no);
+	# my $first_name_in = check_if_empty_name($first_name);
+	# my $last_name_in = check_if_empty_name($last_name);
+	# my $emailin = check_if_empty_email($email);
+   
     $csv->print(
         # $output,
         # [   $stock_order_id, 
@@ -117,7 +125,7 @@ while 	(
         #     $emailin
         # ]
 
-        $output,
+            $output,
         [   $stock_order_id, 
             $order_date, 
             $sc_id, 
@@ -178,6 +186,7 @@ sub stop_empty {
         die "REQUIRED VALUE IS EMPTY!\n";
     }
 }
+
 
 =head1 NAME
 
