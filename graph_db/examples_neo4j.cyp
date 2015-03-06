@@ -189,7 +189,7 @@ DELETE r, emil;
 
 // Add "knows" relationships between all actors who were in the same movie
 MATCH (a:Person)-[:ACTED_IN]->()<-[:ACTED_IN]-(b:Person)
-MERGE(a)-[:KNOWS]-(b);
+CREATE UNIQUE (a)-[:KNOWS]-(b);
 
 // Return friends of friends
 

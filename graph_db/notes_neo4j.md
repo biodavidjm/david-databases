@@ -1,7 +1,7 @@
 Neo4j Training
 ====
 
-___Max de Marzi___
+___by Max de Marzi___
 
 Graph databases helps you to find similar patterns, no matter what the relationship among them are. Example:
 
