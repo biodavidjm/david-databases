@@ -62,7 +62,7 @@ my $output = IO::File->new(">$filename");
 my $csv = Text::CSV->new (
     {
         auto_diag => 1, 
-        binary => 0,
+        binary => 1,
         blank_is_undef => 1,
         empty_is_undef => 1,
         quote_null => 1,
